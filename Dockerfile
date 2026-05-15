@@ -78,9 +78,17 @@ RUN npm install
 COPY backend/ .
 RUN npm run build
 
+# Verify build manifest exists before continuing
+RUN if [ ! -f public/build/manifest.json ]; then echo "Vite build failed: manifest.json not found" && exit 1; fi
+
 # Copy and make entrypoint executable
 COPY backend/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Force clear all caches inside the container
+RUN php artisan config:clear && \
+    php artisan route:clear && \
+    php artisan view:clear
 
 # Create and secure Laravel directories BEFORE dump-autoload
 RUN mkdir -p /app/bootstrap/cache \

@@ -3,7 +3,6 @@ backend/node_modules/
 backend/.env
 backend/storage/
 backend/bootstrap/cache/
-backend/public/build/
 frontend/
 .git
 .env
