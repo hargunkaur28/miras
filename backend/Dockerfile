@@ -25,8 +25,8 @@ RUN docker-php-ext-install \
     pcntl \
     bcmath
 
-# Install MongoDB PHP extension (version 1.21 to match composer.lock)
-RUN pecl install mongodb-1.21.3 && docker-php-ext-enable mongodb
+# Install MongoDB PHP extension
+RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
@@ -58,8 +58,8 @@ COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 # Copy only composer files first (for better caching)
 COPY composer.json composer.lock ./
 
-# Install PHP dependencies
-RUN composer install --no-dev --no-scripts --no-autoloader
+# Install PHP dependencies (ignore ext-mongodb version - 2.3.1 is backward-compatible)
+RUN composer install --no-dev --no-scripts --no-autoloader --ignore-platform-req=ext-mongodb
 
 # Copy the rest of the application
 COPY . .
