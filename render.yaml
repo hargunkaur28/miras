@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: msirms-backend
+    runtime: docker
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false
+      - key: DB_CONNECTION
+        value: mongodb
+      - key: DB_CONNECTION_STRING
+        sync: false
+      - key: FRONTEND_URL
+        value: https://msirms-backend.onrender.com
+      - key: SANCTUM_STATEFUL_DOMAINS
+        value: msirms-backend.onrender.com
+      - key: SESSION_DOMAIN
+        value: msirms-backend.onrender.com
