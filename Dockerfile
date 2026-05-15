@@ -19,9 +19,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcurl4-openssl-dev \
     libssl-dev \
     pkg-config \
+    gnupg \
+    ca-certificates \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
+
+# Verify files are present during build
+RUN ls -la /app && ls -la /app/public || true
 
 # Install PHP extensions
 RUN docker-php-ext-install \
