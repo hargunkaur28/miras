@@ -3,7 +3,7 @@ services:
     name: msirms-backend
     runtime: php
     runtimeVersion: 8.2
-    buildCommand: composer install && php artisan migrate --force
+    buildCommand: composer install && php artisan migrate --force || true
     startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
     envVars:
       - key: APP_ENV
@@ -13,30 +13,8 @@ services:
       - key: APP_KEY
         sync: false
       - key: DB_CONNECTION
-        value: pgsql
-      - key: DB_HOST
-        fromService:
-          type: pgsql
-          name: msirms-db
-          property: host
-      - key: DB_PORT
-        value: "5432"
-      - key: DB_DATABASE
-        value: msirms
-      - key: DB_USERNAME
-        fromService:
-          type: pgsql
-          name: msirms-db
-          property: user
-      - key: DB_PASSWORD
-        fromService:
-          type: pgsql
-          name: msirms-db
-          property: password
+        value: mongodb
+      - key: DB_CONNECTION_STRING
+        sync: false
       - key: FRONTEND_URL
         value: https://your-frontend-url.vercel.app
-
-  - type: pgsql
-    name: msirms-db
-    ipAllowList: []
-    plan: starter

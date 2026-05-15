@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
     wget \
-    libpq-dev \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
@@ -21,12 +20,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install PHP extensions
 RUN docker-php-ext-install \
-    pdo \
-    pdo_pgsql \
     mbstring \
     exif \
     pcntl \
     bcmath
+
+# Install MongoDB PHP extension
+RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
