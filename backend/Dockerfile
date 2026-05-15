@@ -82,5 +82,8 @@ EXPOSE 80
 # Start Apache
 CMD ["apache2-foreground"]
 
+# Start Apache
+CMD ["apache2-foreground"]
+
 # Run Laravel development server
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
