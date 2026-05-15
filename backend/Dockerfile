@@ -73,8 +73,8 @@ COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --no-autoloader --ignore-platform-req=ext-mongodb
 
 # Install NPM dependencies and build assets
-COPY package.json ./
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm ci --include=dev --no-audit --no-fund
 COPY . .
 RUN npm run build
 

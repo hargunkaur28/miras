@@ -73,8 +73,8 @@ COPY backend/composer.json backend/composer.lock ./
 RUN composer install --no-dev --no-scripts --no-autoloader --ignore-platform-req=ext-mongodb
 
 # Install NPM dependencies and build assets
-COPY backend/package.json ./
-RUN npm install
+COPY backend/package.json backend/package-lock.json ./
+RUN npm ci --include=dev --no-audit --no-fund
 COPY backend/ .
 RUN npm run build
 
