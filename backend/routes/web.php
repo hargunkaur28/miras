@@ -15,10 +15,18 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/health-check', function () {
+    try {
+        DB::connection()->getPdo();
+        $dbStatus = 'Connected to ' . DB::connection()->getDatabaseName();
+    } catch (\Exception $e) {
+        $dbStatus = 'Error: ' . $e->getMessage();
+    }
+
     return response()->json([
         'status' => 'online',
-        'message' => 'Backend is working',
-        'database' => DB::connection()->getDatabaseName() ?? 'Disconnected'
+        'app_key_set' => !empty(config('app.key')),
+        'db_status' => $dbStatus,
+        'manifest_exists' => file_exists(public_path('build/manifest.json')),
     ]);
 });
 
