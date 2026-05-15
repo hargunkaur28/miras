@@ -31,15 +31,26 @@ RUN docker-php-ext-install \
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Copy Apache config
-RUN echo '<VirtualHost *:80>\n\
-    DocumentRoot /app/public\n\
-    <Directory /app/public>\n\
-        Allow from all\n\
-        AllowOverride All\n\
-        Require all granted\n\
-    </Directory>\n\
-</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
+# Configure Apache for Laravel
+RUN cat > /etc/apache2/sites-available/000-default.conf <<'EOF'
+<VirtualHost *:80>
+    DocumentRoot /app/public
+    <Directory /app/public>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+        <IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteCond %{REQUEST_FILENAME} !-d
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteRule ^ index.php [QSA,L]
+        </IfModule>
+    </Directory>
+    <FilesMatch \.php$>
+        SetHandler "proxy:unix:/run/php-fpm.sock|fcgi://localhost"
+    </FilesMatch>
+</VirtualHost>
+EOF
 
 # Install Composer
 COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
@@ -70,12 +81,6 @@ EXPOSE 80
 
 # Start Apache
 CMD ["apache2-foreground"]
-
-# Generate APP_KEY if needed
-RUN php artisan key:generate --force || true
-
-# Expose port
-EXPOSE 8000
 
 # Run Laravel development server
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
