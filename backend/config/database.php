@@ -116,7 +116,7 @@ return [
 
         'mongodb' => [
             'driver' => 'mongodb',
-            'connection' => env('DB_CONNECTION_STRING'),
+            'dsn' => env('DB_CONNECTION_STRING'),
             'database' => env('DB_DATABASE', 'msirms'),
         ],
 

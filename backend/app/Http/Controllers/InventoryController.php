@@ -20,7 +20,7 @@ class InventoryController extends Controller
         
         return Inertia::render('Inventory/Index', [
             'items' => $inventory,
-            'lowStockItems' => InventoryItem::where('quantity', '<', DB::raw('reorder_level'))->count(),
+            'lowStockItems' => InventoryItem::whereRaw(['$expr' => ['$lt' => ['$quantity', '$reorder_level']]])->count(),
         ]);
     }
 

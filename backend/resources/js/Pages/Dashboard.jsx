@@ -20,7 +20,8 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 export default function Dashboard({ stats, monthlyData, isSuperAdmin }) {
     // Process monthlyData for Recharts
-    const chartData = monthlyData.reduce((acc, curr) => {
+    const safeMonthlyData = Array.isArray(monthlyData) ? monthlyData : Object.values(monthlyData || {});
+    const chartData = safeMonthlyData.reduce((acc, curr) => {
         const month = curr.month;
         const existing = acc.find(a => a.month === month);
         if (existing) {
@@ -33,7 +34,7 @@ export default function Dashboard({ stats, monthlyData, isSuperAdmin }) {
             });
         }
         return acc;
-    }, []).sort((a, b) => a.month.localeCompare(b.month));
+    }, []).sort((a, b) => (a.month || '').localeCompare(b.month || ''));
 
     const StatCard = ({ label, value, icon: Icon, color, trend }) => {
         const colors = {

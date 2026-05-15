@@ -12,7 +12,7 @@ class DepartmentController extends Controller
     use CsvImportable;
     public function index()
     {
-        $departments = Department::withCount('employees')->paginate(15);
+        $departments = Department::paginate(15);
         return Inertia::render('Departments/Index', ['departments' => $departments]);
     }
 

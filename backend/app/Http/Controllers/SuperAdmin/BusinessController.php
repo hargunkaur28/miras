@@ -12,7 +12,7 @@ class BusinessController extends Controller
 {
     public function index()
     {
-        $businesses = Business::withCount(['users'])->paginate(10);
+        $businesses = Business::paginate(10);
         return Inertia::render('SuperAdmin/Businesses/Index', [
             'businesses' => $businesses
         ]);

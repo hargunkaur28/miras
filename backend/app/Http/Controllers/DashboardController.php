@@ -30,15 +30,23 @@ class DashboardController extends Controller
                 'total_inventory_items' => InventoryItem::count(),
             ];
 
-            // Global monthly revenue
-            $dateFormat = $this->getDateFormat();
-            $monthlyData = FinanceEntry::select(
-                $dateFormat,
-                'type',
-                DB::raw('SUM(amount) as total')
-            )->whereYear('entry_date', date('Y'))
-                ->groupBy('month', 'type')
-                ->get();
+            try {
+                $monthlyData = FinanceEntry::whereYear('entry_date', date('Y'))
+                    ->get()
+                    ->groupBy(function($entry) {
+                        return date('Y-m', strtotime($entry->entry_date));
+                    })
+                    ->map(function($items, $month) {
+                        return [
+                            'month' => $month,
+                            'type' => $items->first()->type,
+                            'total' => $items->sum('amount')
+                        ];
+                    })
+                    ->values();
+            } catch (\Throwable $e) {
+                $monthlyData = collect([]);
+            }
 
             return Inertia::render('Dashboard', [
                 'stats' => $stats,
@@ -79,15 +87,24 @@ class DashboardController extends Controller
             'expense_trend' => $expenseTrend,
         ];
 
-        $dateFormat = $this->getDateFormat();
-        $monthlyData = FinanceEntry::select(
-            $dateFormat,
-            'type',
-            DB::raw('SUM(amount) as total')
-        )->groupBy('month', 'type')
-            ->orderBy('month', 'desc')
-            ->limit(12)
-            ->get();
+        try {
+            $monthlyData = FinanceEntry::orderBy('entry_date', 'desc')
+                ->limit(100)
+                ->get()
+                ->groupBy(function($entry) {
+                    return date('Y-m', strtotime($entry->entry_date));
+                })
+                ->map(function($items, $month) {
+                    return [
+                        'month' => $month,
+                        'type' => $items->first()->type,
+                        'total' => $items->sum('amount')
+                    ];
+                })
+                ->values();
+        } catch (\Throwable $e) {
+            $monthlyData = collect([]);
+        }
 
         return Inertia::render('Dashboard', [
             'stats' => $stats,
@@ -103,6 +120,9 @@ class DashboardController extends Controller
             return DB::raw("strftime('%Y-%m', entry_date) as month");
         } elseif ($driver === 'mysql') {
             return DB::raw("DATE_FORMAT(entry_date, '%Y-%m-01') as month");
+        } elseif ($driver === 'mongodb') {
+            // For MongoDB, we'll handle grouping in a more compatible way or return a placeholder
+            return 'entry_date'; 
         }
         return DB::raw("DATE_TRUNC('month', entry_date)::date as month");
     }
