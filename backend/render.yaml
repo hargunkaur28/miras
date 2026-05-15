@@ -13,30 +13,30 @@ services:
       - key: APP_KEY
         sync: false
       - key: DB_CONNECTION
-        value: mysql
+        value: pgsql
       - key: DB_HOST
         fromService:
-          type: mysql
+          type: pgsql
           name: msirms-db
           property: host
       - key: DB_PORT
-        value: "3306"
+        value: "5432"
       - key: DB_DATABASE
         value: msirms
       - key: DB_USERNAME
         fromService:
-          type: mysql
+          type: pgsql
           name: msirms-db
           property: user
       - key: DB_PASSWORD
         fromService:
-          type: mysql
+          type: pgsql
           name: msirms-db
           property: password
       - key: FRONTEND_URL
         value: https://your-frontend-url.vercel.app
 
-  - type: mysql
+  - type: pgsql
     name: msirms-db
     ipAllowList: []
     plan: starter
