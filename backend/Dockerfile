@@ -53,14 +53,17 @@ RUN composer install --no-dev --no-scripts --no-autoloader
 # Copy the rest of the application
 COPY . .
 
-# Create required Laravel directories with proper permissions
-RUN mkdir -p /app/bootstrap/cache /app/storage/logs && \
-    chown -R www-data:www-data /app && \
+# Create and secure Laravel directories BEFORE dump-autoload
+RUN mkdir -p /app/bootstrap/cache /app/storage/logs /app/storage/app && \
+    chmod -R 777 /app/bootstrap/cache /app/storage
+
+# Run composer autoload (directory now writable)
+RUN composer dump-autoload --optimize
+
+# Set final permissions for Apache
+RUN chown -R www-data:www-data /app && \
     chmod -R 755 /app && \
     chmod -R 775 /app/storage /app/bootstrap/cache
-
-# Run composer autoload
-RUN composer dump-autoload --optimize
 
 # Expose port
 EXPOSE 80
