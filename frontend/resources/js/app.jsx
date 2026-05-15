@@ -1,25 +1,18 @@
 import '../css/app.css';
-import './bootstrap';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 
-import { createInertiaApp } from '@inertiajs/react';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { createRoot } from 'react-dom/client';
+// Simple placeholder component
+function App() {
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg">
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">MSIRMS</h1>
+        <p className="text-gray-600">Frontend is loading...</p>
+      </div>
+    </div>
+  );
+}
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
-
-createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
-    resolve: (name) =>
-        resolvePageComponent(
-            `./Pages/${name}.jsx`,
-            import.meta.glob('./Pages/**/*.jsx'),
-        ),
-    setup({ el, App, props }) {
-        const root = createRoot(el);
-
-        root.render(<App {...props} />);
-    },
-    progress: {
-        color: '#4B5563',
-    },
-});
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
