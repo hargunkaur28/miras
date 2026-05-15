@@ -25,8 +25,8 @@ RUN docker-php-ext-install \
     pcntl \
     bcmath
 
-# Install MongoDB PHP extension
-RUN pecl install mongodb && docker-php-ext-enable mongodb
+# Install MongoDB PHP extension (version 1.21 to match composer.lock)
+RUN pecl install mongodb-1.21.3 && docker-php-ext-enable mongodb
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
