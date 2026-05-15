@@ -78,8 +78,13 @@ COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Create and secure Laravel directories BEFORE dump-autoload
-RUN mkdir -p /app/bootstrap/cache /app/storage/logs /app/storage/app && \
-    chmod -R 777 /app/bootstrap/cache /app/storage
+RUN mkdir -p /app/bootstrap/cache \
+             /app/storage/logs \
+             /app/storage/app/public \
+             /app/storage/framework/views \
+             /app/storage/framework/sessions \
+             /app/storage/framework/cache \
+    && chmod -R 777 /app/bootstrap/cache /app/storage
 
 # Run composer autoload (directory now writable)
 RUN composer dump-autoload --optimize
