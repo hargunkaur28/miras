@@ -85,11 +85,6 @@ RUN if [ ! -f public/build/manifest.json ]; then echo "Vite build failed: manife
 COPY backend/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Force clear all caches inside the container
-RUN php artisan config:clear && \
-    php artisan route:clear && \
-    php artisan view:clear
-
 # Create and secure Laravel directories BEFORE dump-autoload
 RUN mkdir -p /app/bootstrap/cache \
              /app/storage/logs \
@@ -101,6 +96,11 @@ RUN mkdir -p /app/bootstrap/cache \
 
 # Run composer autoload (directory now writable)
 RUN composer dump-autoload --optimize
+
+# Force clear all caches inside the container (now that autoloader exists)
+RUN php artisan config:clear && \
+    php artisan route:clear && \
+    php artisan view:clear
 
 # Set final permissions for Apache
 RUN chown -R www-data:www-data /app && \
