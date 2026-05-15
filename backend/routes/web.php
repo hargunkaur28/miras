@@ -14,6 +14,14 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+Route::get('/health-check', function () {
+    return response()->json([
+        'status' => 'online',
+        'message' => 'Backend is working',
+        'database' => DB::connection()->getDatabaseName() ?? 'Disconnected'
+    ]);
+});
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

@@ -20,9 +20,9 @@ MAIL_MAILER=log
 MAIL_FROM_ADDRESS="${MAIL_FROM_ADDRESS:-noreply@example.com}"
 MAIL_FROM_NAME="${APP_NAME}"
 
-FRONTEND_URL="${FRONTEND_URL:-https://msirms-frontend.vercel.app}"
-SANCTUM_STATEFUL_DOMAINS="${SANCTUM_STATEFUL_DOMAINS:-msirms-frontend.vercel.app}"
-SESSION_DOMAIN="${SESSION_DOMAIN:-msirms-frontend.vercel.app}"
+FRONTEND_URL="${FRONTEND_URL:-https://msirms-backend.onrender.com}"
+SANCTUM_STATEFUL_DOMAINS="${SANCTUM_STATEFUL_DOMAINS:-msirms-backend.onrender.com}"
+SESSION_DOMAIN="${SESSION_DOMAIN:-msirms-backend.onrender.com}"
 EOF
 
 # Ensure permissions are correct

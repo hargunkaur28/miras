@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxml2-dev \
     zip \
     unzip \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
@@ -62,8 +64,11 @@ COPY composer.json composer.lock ./
 # Install PHP dependencies (ignore ext-mongodb version - 2.3.1 is backward-compatible)
 RUN composer install --no-dev --no-scripts --no-autoloader --ignore-platform-req=ext-mongodb
 
-# Copy application code
+# Install NPM dependencies and build assets
+COPY package.json ./
+RUN npm install
 COPY . .
+RUN npm run build
 
 # Copy and make entrypoint executable
 COPY docker-entrypoint.sh /usr/local/bin/

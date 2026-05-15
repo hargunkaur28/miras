@@ -14,8 +14,8 @@ services:
       - key: DB_CONNECTION_STRING
         sync: false
       - key: FRONTEND_URL
-        value: https://msirms-frontend.vercel.app
+        value: https://msirms-backend.onrender.com
       - key: SANCTUM_STATEFUL_DOMAINS
-        value: msirms-frontend.vercel.app
+        value: msirms-backend.onrender.com
       - key: SESSION_DOMAIN
-        value: msirms-frontend.vercel.app
+        value: msirms-backend.onrender.com
