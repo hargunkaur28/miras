@@ -71,6 +71,11 @@ RUN mkdir -p /app/bootstrap/cache /app/storage/logs /app/storage/app && \
 # Run composer autoload (directory now writable)
 RUN composer dump-autoload --optimize
 
+# Clear Laravel caches for production
+RUN php artisan config:clear && \
+    php artisan cache:clear && \
+    php artisan view:clear
+
 # Set final permissions for Apache
 RUN chown -R www-data:www-data /app && \
     chmod -R 755 /app && \
@@ -81,8 +86,6 @@ EXPOSE 80
 
 # Start Apache
 CMD ["apache2-foreground"]
-
-# Start Apache
 CMD ["apache2-foreground"]
 
 # Run Laravel development server
