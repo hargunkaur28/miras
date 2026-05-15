@@ -65,8 +65,12 @@ COPY composer.json composer.lock ./
 # Install PHP dependencies (ignore ext-mongodb version - 2.3.1 is backward-compatible)
 RUN composer install --no-dev --no-scripts --no-autoloader --ignore-platform-req=ext-mongodb
 
-# Copy the rest of the application
+# Copy application code
 COPY . .
+
+# Copy and make entrypoint executable
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Create and secure Laravel directories BEFORE dump-autoload
 RUN mkdir -p /app/bootstrap/cache /app/storage/logs /app/storage/app && \
@@ -83,5 +87,5 @@ RUN chown -R www-data:www-data /app && \
 # Expose port
 EXPOSE 80
 
-# Start Apache
-CMD ["apache2-foreground"]
+# Use entrypoint script to inject env vars and start Apache
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
