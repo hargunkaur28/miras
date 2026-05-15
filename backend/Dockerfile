@@ -61,10 +61,10 @@ EOF
 # Install Composer
 COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
-# Copy only composer files first (for better caching)
+# Copy only composer files first
 COPY composer.json composer.lock ./
 
-# Install PHP dependencies (ignore ext-mongodb version - 2.3.1 is backward-compatible)
+# Install PHP dependencies
 RUN composer install --no-dev --no-scripts --no-autoloader --ignore-platform-req=ext-mongodb
 
 # Install NPM dependencies and build assets
