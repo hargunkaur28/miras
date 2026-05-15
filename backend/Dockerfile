@@ -53,13 +53,14 @@ RUN composer install --no-dev --no-scripts --no-autoloader
 # Copy the rest of the application
 COPY . .
 
-# Run composer autoload
-RUN composer dump-autoload --optimize
-
-# Set proper permissions
-RUN chown -R www-data:www-data /app && \
+# Create required Laravel directories with proper permissions
+RUN mkdir -p /app/bootstrap/cache /app/storage/logs && \
+    chown -R www-data:www-data /app && \
     chmod -R 755 /app && \
     chmod -R 775 /app/storage /app/bootstrap/cache
+
+# Run composer autoload
+RUN composer dump-autoload --optimize
 
 # Expose port
 EXPOSE 80
