@@ -35,22 +35,26 @@ RUN a2enmod rewrite
 RUN cat > /etc/apache2/sites-available/000-default.conf <<'EOF'
 <VirtualHost *:80>
     DocumentRoot /app/public
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+    
     <Directory /app/public>
         Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
-        <IfModule mod_rewrite.c>
-            RewriteEngine On
-            RewriteCond %{REQUEST_FILENAME} !-d
-            RewriteCond %{REQUEST_FILENAME} !-f
-            RewriteRule ^ index.php [QSA,L]
-        </IfModule>
     </Directory>
-    <FilesMatch \.php$>
-        SetHandler "proxy:unix:/run/php-fpm.sock|fcgi://localhost"
-    </FilesMatch>
+    
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^ /index.php [QSA,L]
+    </IfModule>
 </VirtualHost>
 EOF
+
+# Enable mod_php
+RUN a2enmod php8.2
 
 # Install Composer
 COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
@@ -81,7 +85,3 @@ EXPOSE 80
 
 # Start Apache
 CMD ["apache2-foreground"]
-CMD ["apache2-foreground"]
-
-# Run Laravel development server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
