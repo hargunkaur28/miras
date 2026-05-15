@@ -21,3 +21,17 @@ $files = [
 foreach ($files as $path => $desc) {
     echo "$desc ($path): " . (file_exists($path) ? "✅ FOUND" : "❌ MISSING") . "<br>";
 }
+
+echo "<h2>Checking public/build/assets</h2>";
+$assetPath = 'build/assets';
+if (is_dir($assetPath)) {
+    $assets = scandir($assetPath);
+    echo "Found " . (count($assets) - 2) . " assets:<br>";
+    foreach ($assets as $asset) {
+        if ($asset !== '.' && $asset !== '..') {
+            echo "- $asset<br>";
+        }
+    }
+} else {
+    echo "❌ build/assets directory NOT FOUND<br>";
+}
