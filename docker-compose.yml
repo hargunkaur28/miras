@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: msirms-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: msirms
+      MYSQL_USER: msirms_user
+      MYSQL_PASSWORD: msirms_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - msirms-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Laravel Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: msirms-backend
+    environment:
+      APP_NAME: MSIRMS
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_KEY: base64:2d+d6p8Nb5A9Q2vJ8kL3mP0xR1sT4uV5w6xY7zA8b9cD=
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: msirms
+      DB_USERNAME: msirms_user
+      DB_PASSWORD: msirms_password
+      FRONTEND_URL: http://localhost:5173
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - msirms-network
+    command: php artisan serve --host=0.0.0.0 --port=8000
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: msirms-frontend
+    environment:
+      VITE_API_URL: http://backend:8000/api
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - msirms-network
+    command: npm run dev
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  msirms-network:
+    driver: bridge

@@ -1,0 +1,6 @@
+type,category,amount,description,entry_date
+"expense","Rent",25000.00,"Industrial shed monthly lease","2024-05-01"
+"income","Project",150000.00,"Advance payment for custom fabrication","2024-05-02"
+"expense","Utility",8500.00,"Factory power consumption","2024-05-02"
+"income","Scrap",4200.00,"Sale of aluminum and steel offcuts","2024-05-03"
+"expense","Maintenance",12500.00,"Purchase of new drill bits and lubricants","2024-05-04"

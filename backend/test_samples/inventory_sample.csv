@@ -1,0 +1,6 @@
+name,sku,category,unit,quantity,reorder_level,cost_price,sell_price
+"Aluminum Sheet 2mm","ALU-001","Raw Materials","Sheets",500,50,1200.00,1850.00
+"Steel Rod 10mm","STL-10MM","Raw Materials","Kg",1200,100,65.50,85.00
+"Copper Wire 1.5mm","COP-1.5","Electrical","Rolls",250,20,850.00,1150.00
+"Industrial Lubricant","LUB-HD","Consumables","Liters",100,10,450.00,680.00
+"Precision Bolts M8","BLT-M8","Hardware","Units",5000,500,12.50,25.00

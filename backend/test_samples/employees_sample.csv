@@ -1,0 +1,6 @@
+name,email,phone,address,city,state,country,role,department_id,salary,joined_at
+"Arjun Kumar","arjun@msirms.com","+91 9898001122","101 Green Park","New Delhi","Delhi","India","Manager",1,850000,"2024-01-15"
+"Sanya Malhotra","sanya.m@msirms.com","+91 9898003344","Flat 202, Heights","Pune","Maharashtra","India","Supervisor",1,650000,"2024-02-20"
+"Rahul Dravid","rahul.d@msirms.com","+91 9898005566","34 Cricket Colony","Bangalore","Karnataka","India","Staff",1,450000,"2024-03-10"
+"Nisha Bansal","nisha.b@msirms.com","+91 9898007788","45 Patel Chowk","Jaipur","Rajasthan","India","Staff",1,420000,"2024-04-05"
+"Amitabh Bachchan","amit.b@msirms.com","+91 9898009900","Jalsa House","Mumbai","Maharashtra","India","Intern",1,180000,"2024-05-12"

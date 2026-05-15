@@ -1,0 +1,6 @@
+po_number,supplier_name,order_date,total_amount,status
+"PO-2001","Reliable Steel Corp","2024-04-28","350000.00","confirmed"
+"PO-2002","Prime Chemicals","2024-04-29","12000.00","delivered"
+"PO-2003","Standard Plastics","2024-05-01","55000.00","pending"
+"PO-2004","Eastern Logistics","2024-05-02","8500.00","confirmed"
+"PO-2005","Southern Electronics","2024-05-03","125000.00","shipped"

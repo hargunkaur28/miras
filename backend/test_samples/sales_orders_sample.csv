@@ -1,0 +1,6 @@
+so_number,customer_name,order_date,total_amount,status
+"SO-1001","India Gate Solutions","2024-05-01","125000.00","confirmed"
+"SO-1002","Apex Manufacturing","2024-05-02","45000.50","pending"
+"SO-1003","Global Retailers","2024-05-03","89000.00","shipped"
+"SO-1004","Tech Spares Ltd","2024-05-04","21000.00","delivered"
+"SO-1005","Modern Furnishings","2024-05-04","67500.00","cancelled"
