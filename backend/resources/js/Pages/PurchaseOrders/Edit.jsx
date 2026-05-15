@@ -21,7 +21,7 @@ export default function PurchaseOrdersEdit({ purchaseOrder, suppliers }) {
         po_number: purchaseOrder.po_number, 
         status: purchaseOrder.status, 
         total_amount: purchaseOrder.total_amount, 
-        order_date: purchaseOrder.order_date,
+        ordered_at: purchaseOrder.ordered_at,
     });
 
     const submit = (e) => {
@@ -154,7 +154,7 @@ export default function PurchaseOrdersEdit({ purchaseOrder, suppliers }) {
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center text-xs">
                                     <span className="text-gray-500 font-bold uppercase">Placed On</span>
-                                    <span className="text-white font-black">{new Date(purchaseOrder.order_date).toLocaleDateString()}</span>
+                                    <span className="text-white font-black">{new Date(purchaseOrder.ordered_at).toLocaleDateString()}</span>
                                 </div>
                                 <div className="flex justify-between items-center text-xs">
                                     <span className="text-gray-500 font-bold uppercase">Current Phase</span>

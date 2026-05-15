@@ -12,7 +12,7 @@ use App\Traits\BelongsToBusiness;
 class PurchaseOrder extends Model
 {
     use HasFactory, BelongsToBusiness;
-    protected $fillable = ['supplier_id', 'status', 'total_amount', 'ordered_at', 'business_id'];
+    protected $fillable = ['supplier_id', 'po_number', 'status', 'total_amount', 'ordered_at', 'business_id'];
     protected $casts = ['ordered_at' => 'datetime'];
 
     public function supplier(): BelongsTo

@@ -43,31 +43,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // Admin & Settings
-    Route::resource('departments', DepartmentController::class);
+    Route::resource('departments', DepartmentController::class)->except(['show']);
     Route::post('departments/import', [DepartmentController::class, 'import'])->name('departments.import');
     
     // Human Resources
-    Route::resource('employees', EmployeeController::class);
+    Route::resource('employees', EmployeeController::class)->except(['show']);
     Route::post('employees/import', [EmployeeController::class, 'import'])->name('employees.import');
     
     // Inventory Management
-    Route::resource('inventory', InventoryController::class);
+    Route::resource('inventory', InventoryController::class)->except(['show']);
     Route::post('inventory/import', [InventoryController::class, 'import'])->name('inventory.import');
     
     // Supplier Management
-    Route::resource('suppliers', SupplierController::class);
+    Route::resource('suppliers', SupplierController::class)->except(['show']);
     Route::post('suppliers/import', [SupplierController::class, 'import'])->name('suppliers.import');
-    Route::resource('purchase-orders', PurchaseOrderController::class);
+    Route::resource('purchase-orders', PurchaseOrderController::class)->except(['show']);
     Route::post('purchase-orders/import', [PurchaseOrderController::class, 'import'])->name('purchase-orders.import');
     
     // Sales Management
-    Route::resource('customers', CustomerController::class);
+    Route::resource('customers', CustomerController::class)->except(['show']);
     Route::post('customers/import', [CustomerController::class, 'import'])->name('customers.import');
-    Route::resource('sales-orders', SalesOrderController::class);
+    Route::resource('sales-orders', SalesOrderController::class)->except(['show']);
     Route::post('sales-orders/import', [SalesOrderController::class, 'import'])->name('sales-orders.import');
     
     // Finance & Reporting
-    Route::resource('finance', FinanceController::class);
+    Route::resource('finance', FinanceController::class)->except(['show']);
     Route::post('finance/import', [FinanceController::class, 'import'])->name('finance.import');
     
     // Profile
@@ -77,7 +77,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Super Admin Only
     Route::middleware(['super_admin'])->prefix('super-admin')->name('super-admin.')->group(function () {
-        Route::resource('businesses', \App\Http\Controllers\SuperAdmin\BusinessController::class);
+        Route::resource('businesses', \App\Http\Controllers\SuperAdmin\BusinessController::class)->except(['show']);
         Route::post('businesses/{business}/toggle-status', [\App\Http\Controllers\SuperAdmin\BusinessController::class, 'toggleStatus'])->name('businesses.toggle-status');
     });
 });

@@ -20,7 +20,7 @@ export default function SalesOrdersEdit({ salesOrder, customers }) {
         so_number: salesOrder.so_number, 
         status: salesOrder.status, 
         total_amount: salesOrder.total_amount, 
-        order_date: salesOrder.order_date,
+        ordered_at: salesOrder.ordered_at,
     });
 
     const submit = (e) => {
@@ -154,7 +154,7 @@ export default function SalesOrdersEdit({ salesOrder, customers }) {
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center text-xs">
                                     <span className="text-gray-500 font-bold uppercase">Ordered On</span>
-                                    <span className="text-white font-black">{new Date(salesOrder.order_date).toLocaleDateString()}</span>
+                                    <span className="text-white font-black">{new Date(salesOrder.ordered_at).toLocaleDateString()}</span>
                                 </div>
                                 <div className="flex justify-between items-center text-xs">
                                     <span className="text-gray-500 font-bold uppercase">Current Node</span>

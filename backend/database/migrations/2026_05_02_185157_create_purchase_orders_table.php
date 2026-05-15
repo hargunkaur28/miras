@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade');
+            $table->string('po_number')->nullable()->unique();
             $table->enum('status', ['pending', 'confirmed', 'delivered', 'cancelled'])->default('pending');
             $table->decimal('total_amount', 12, 2)->default(0);
             $table->timestamp('ordered_at')->useCurrent();

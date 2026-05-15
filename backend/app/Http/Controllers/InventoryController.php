@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\InventoryItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use App\Traits\CsvImportable;
 
@@ -18,9 +17,13 @@ class InventoryController extends Controller
     {
         $inventory = InventoryItem::paginate(15);
         
+        $lowStockItems = InventoryItem::all()
+            ->filter(fn ($item) => (int) $item->quantity < (int) $item->reorder_level)
+            ->count();
+
         return Inertia::render('Inventory/Index', [
             'items' => $inventory,
-            'lowStockItems' => InventoryItem::whereRaw(['$expr' => ['$lt' => ['$quantity', '$reorder_level']]])->count(),
+            'lowStockItems' => $lowStockItems,
         ]);
     }
 

@@ -34,13 +34,15 @@ const InputGroup = ({ label, icon: Icon, error, children }) => (
 
 const inputClasses = "w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-white placeholder:text-gray-600 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all appearance-none";
 
-export default function FinanceEdit({ financeEntry }) {
+export default function FinanceEdit({ entry }) {
+    const financeEntry = entry;
+
     const { data, setData, patch, errors, processing } = useForm({
         type: financeEntry.type || 'income',
         category: financeEntry.category || '',
         amount: financeEntry.amount || '',
         description: financeEntry.description || '',
-        transaction_date: financeEntry.transaction_date || '',
+        entry_date: financeEntry.entry_date || '',
     });
 
     const submit = (e) => {
@@ -109,11 +111,11 @@ export default function FinanceEdit({ financeEntry }) {
                                     />
                                 </InputGroup>
 
-                                <InputGroup label="Transaction Date" icon={Calendar} error={errors.transaction_date}>
+                                <InputGroup label="Transaction Date" icon={Calendar} error={errors.entry_date}>
                                     <input 
                                         type="date" 
-                                        value={data.transaction_date} 
-                                        onChange={e => setData('transaction_date', e.target.value)} 
+                                        value={data.entry_date}
+                                        onChange={e => setData('entry_date', e.target.value)}
                                         className={`${inputClasses} [color-scheme:dark]`} 
                                     />
                                 </InputGroup>

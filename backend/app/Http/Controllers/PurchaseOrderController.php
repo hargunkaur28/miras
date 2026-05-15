@@ -18,6 +18,7 @@ class PurchaseOrderController extends Controller {
     public function store(Request $request) {
         $v = $request->validate([
             'supplier_id' => 'required|exists:suppliers,id',
+            'po_number' => 'nullable|string|max:255',
             'status' => 'required|in:pending,confirmed,delivered,cancelled',
             'total_amount' => 'required|numeric|min:0',
             'ordered_at' => 'required|date',
@@ -31,8 +32,11 @@ class PurchaseOrderController extends Controller {
     }
     public function update(Request $request, PurchaseOrder $purchaseOrder) {
         $v = $request->validate([
+            'supplier_id' => 'required|exists:suppliers,id',
+            'po_number' => 'nullable|string|max:255',
             'status' => 'required|in:pending,confirmed,delivered,cancelled',
             'total_amount' => 'required|numeric|min:0',
+            'ordered_at' => 'nullable|date',
         ]);
         $purchaseOrder->update($v);
         return redirect()->route('purchase-orders.index')->with('message', 'Purchase order updated.');
@@ -67,6 +71,7 @@ class PurchaseOrderController extends Controller {
                 'ordered_at' => $data['order_date'] ?? now()->format('Y-m-d'),
             ], [
                 'supplier_id' => 'required|exists:suppliers,id',
+                'po_number' => 'nullable|string|max:255',
                 'status' => 'required|in:pending,confirmed,delivered,cancelled',
                 'total_amount' => 'required|numeric',
                 'ordered_at' => 'required|date',

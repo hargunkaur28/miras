@@ -10,43 +10,43 @@ return new class extends Migration
     {
         Schema::table('customers', function (Blueprint $table) {
             if (!Schema::hasColumn('customers', 'contact_person')) {
-                $table->string('contact_person')->nullable()->after('name');
+                $table->string('contact_person')->nullable();
             }
             if (!Schema::hasColumn('customers', 'city')) {
-                $table->string('city')->nullable()->after('address');
+                $table->string('city')->nullable();
             }
             if (!Schema::hasColumn('customers', 'state')) {
-                $table->string('state')->nullable()->after('city');
+                $table->string('state')->nullable();
             }
             if (!Schema::hasColumn('customers', 'country')) {
-                $table->string('country')->nullable()->after('state');
+                $table->string('country')->nullable();
             }
         });
 
         Schema::table('suppliers', function (Blueprint $table) {
             if (!Schema::hasColumn('suppliers', 'city')) {
-                $table->string('city')->nullable()->after('address');
+                $table->string('city')->nullable();
             }
             if (!Schema::hasColumn('suppliers', 'state')) {
-                $table->string('state')->nullable()->after('city');
+                $table->string('state')->nullable();
             }
             if (!Schema::hasColumn('suppliers', 'country')) {
-                $table->string('country')->nullable()->after('state');
+                $table->string('country')->nullable();
             }
         });
 
         Schema::table('employees', function (Blueprint $table) {
             if (!Schema::hasColumn('employees', 'address')) {
-                $table->text('address')->nullable()->after('phone');
+                $table->text('address')->nullable();
             }
             if (!Schema::hasColumn('employees', 'city')) {
-                $table->string('city')->nullable()->after('address');
+                $table->string('city')->nullable();
             }
             if (!Schema::hasColumn('employees', 'state')) {
-                $table->string('state')->nullable()->after('city');
+                $table->string('state')->nullable();
             }
             if (!Schema::hasColumn('employees', 'country')) {
-                $table->string('country')->nullable()->after('state');
+                $table->string('country')->nullable();
             }
         });
     }

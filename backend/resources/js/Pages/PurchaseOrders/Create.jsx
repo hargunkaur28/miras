@@ -19,7 +19,7 @@ export default function PurchaseOrdersCreate({ suppliers }) {
         po_number: `PO-${Math.floor(1000 + Math.random() * 9000)}`, 
         status: 'pending', 
         total_amount: '', 
-        order_date: new Date().toISOString().split('T')[0],
+        ordered_at: new Date().toISOString().split('T')[0],
     });
 
     const submit = (e) => {
@@ -114,8 +114,8 @@ export default function PurchaseOrdersCreate({ suppliers }) {
                                     </label>
                                     <input 
                                         type="date" 
-                                        value={data.order_date} 
-                                        onChange={e => setData('order_date', e.target.value)}
+                                        value={data.ordered_at}
+                                        onChange={e => setData('ordered_at', e.target.value)}
                                         className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm focus:ring-primary focus:border-primary transition-all text-white [color-scheme:dark]"
                                     />
                                 </div>

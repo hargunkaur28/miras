@@ -40,7 +40,7 @@ export default function FinanceCreate() {
         category: '',
         amount: '',
         description: '',
-        transaction_date: new Date().toISOString().split('T')[0],
+        entry_date: new Date().toISOString().split('T')[0],
     });
 
     const submit = (e) => {
@@ -111,11 +111,11 @@ export default function FinanceCreate() {
                                     />
                                 </InputGroup>
 
-                                <InputGroup label="Transaction Date" icon={Calendar} error={errors.transaction_date}>
+                                <InputGroup label="Transaction Date" icon={Calendar} error={errors.entry_date}>
                                     <input 
                                         type="date" 
-                                        value={data.transaction_date} 
-                                        onChange={e => setData('transaction_date', e.target.value)} 
+                                        value={data.entry_date}
+                                        onChange={e => setData('entry_date', e.target.value)}
                                         className={`${inputClasses} [color-scheme:dark]`} 
                                     />
                                 </InputGroup>

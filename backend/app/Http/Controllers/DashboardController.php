@@ -72,12 +72,16 @@ class DashboardController extends Controller
         $lastMonthExpenses = FinanceEntry::where('type', 'expense')->whereYear('entry_date', date('Y', strtotime($lastMonthDate)))->whereMonth('entry_date', date('m', strtotime($lastMonthDate)))->sum('amount');
         $expenseTrend = $lastMonthExpenses > 0 ? round((($thisMonthExpenses - $lastMonthExpenses) / $lastMonthExpenses) * 100, 1) : 0;
 
+        $lowStockItems = InventoryItem::all()
+            ->filter(fn ($item) => (int) $item->quantity < (int) $item->reorder_level)
+            ->count();
+
         $stats = [
             'total_employees' => Employee::count(),
             'total_customers' => Customer::count(),
             'total_suppliers' => Supplier::count(),
             'total_inventory_items' => InventoryItem::count(),
-            'low_stock_items' => InventoryItem::whereRaw('quantity < reorder_level')->count(),
+            'low_stock_items' => $lowStockItems,
             'pending_sales_orders' => SalesOrder::where('status', 'pending')->count(),
             'pending_purchase_orders' => PurchaseOrder::where('status', 'pending')->count(),
             'total_revenue' => SalesOrder::sum('total_amount'),

@@ -18,6 +18,7 @@ class SalesOrderController extends Controller {
     public function store(Request $request) {
         $v = $request->validate([
             'customer_id' => 'required|exists:customers,id',
+            'so_number' => 'nullable|string|max:255',
             'status' => 'required|in:pending,confirmed,shipped,delivered,cancelled',
             'total_amount' => 'required|numeric|min:0',
             'ordered_at' => 'required|date',
@@ -31,8 +32,11 @@ class SalesOrderController extends Controller {
     }
     public function update(Request $request, SalesOrder $salesOrder) {
         $v = $request->validate([
+            'customer_id' => 'required|exists:customers,id',
+            'so_number' => 'nullable|string|max:255',
             'status' => 'required|in:pending,confirmed,shipped,delivered,cancelled',
             'total_amount' => 'required|numeric|min:0',
+            'ordered_at' => 'nullable|date',
         ]);
         $salesOrder->update($v);
         return redirect()->route('sales-orders.index')->with('message', 'Sales order updated.');
@@ -67,6 +71,7 @@ class SalesOrderController extends Controller {
                 'ordered_at' => $data['order_date'] ?? now()->format('Y-m-d'),
             ], [
                 'customer_id' => 'required|exists:customers,id',
+                'so_number' => 'nullable|string|max:255',
                 'status' => 'required|in:pending,confirmed,shipped,delivered,cancelled',
                 'total_amount' => 'required|numeric',
                 'ordered_at' => 'required|date',
