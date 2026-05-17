@@ -79,7 +79,7 @@ COPY backend/ .
 RUN npm run build
 
 # Verify build manifest exists before continuing
-RUN if [ ! -f public/build/manifest.json ]; then echo "Vite build failed: manifest.json not found" && exit 1; fi
+RUN if [ ! -f public/build/.vite/manifest.json ]; then echo "Vite build failed: .vite/manifest.json not found" && exit 1; fi
 
 # Copy and make entrypoint executable
 COPY backend/docker-entrypoint.sh /usr/local/bin/
