@@ -31,6 +31,30 @@ Route::get('/health-check', function () {
     ]);
 });
 
+Route::get('/debug-assets', function () {
+    $dir = public_path('build');
+    $files = [];
+    if (is_dir($dir)) {
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
+        foreach ($iterator as $file) {
+            if ($file->isFile()) {
+                $files[] = [
+                    'path' => str_replace($dir, '', $file->getPathname()),
+                    'size' => $file->getSize(),
+                    'readable' => is_readable($file->getPathname()),
+                    'perms' => substr(sprintf('%o', fileperms($file->getPathname())), -4),
+                ];
+            }
+        }
+    }
+    return response()->json([
+        'dir_exists' => is_dir($dir),
+        'dir_readable' => is_readable($dir),
+        'dir_perms' => is_dir($dir) ? substr(sprintf('%o', fileperms($dir)), -4) : null,
+        'files' => $files,
+    ]);
+});
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
