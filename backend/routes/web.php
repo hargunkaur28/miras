@@ -11,12 +11,13 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/health-check', function () {
     try {
-        DB::connection()->getPdo();
+        DB::connection()->command(['ping' => 1]);
         $dbStatus = 'Connected to ' . DB::connection()->getDatabaseName();
     } catch (\Exception $e) {
         $dbStatus = 'Error: ' . $e->getMessage();
