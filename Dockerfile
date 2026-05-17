@@ -53,13 +53,6 @@ RUN cat > /etc/apache2/sites-available/000-default.conf <<'EOF'
         AllowOverride All
         Require all granted
     </Directory>
-    
-    <IfModule mod_rewrite.c>
-        RewriteEngine On
-        RewriteCond %{REQUEST_FILENAME} !-d
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteRule ^ /index.php [QSA,L]
-    </IfModule>
 </VirtualHost>
 EOF
 
