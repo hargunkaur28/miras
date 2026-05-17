@@ -102,9 +102,8 @@ RUN php artisan config:clear && \
     php artisan route:clear && \
     php artisan view:clear
 
-# Set final permissions for Apache
-RUN chown -R www-data:www-data /app && \
-    chmod -R 755 /app && \
+# Set final permissions for Apache (targeted - avoids slow recursive chown on all vendor files)
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache /app/public && \
     chmod -R 775 /app/storage /app/bootstrap/cache
 
 # Expose port
